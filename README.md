@@ -30,15 +30,17 @@ To get an ndjson file out. You can also get a TSV (Tab seperated CSV) out by pas
 
 If you however have [termgraph](https://github.com/mkaz/termgraph) installed and in your $PATH you can run
     
-    echo '
-        select
-            code,
-            sum(CASE WHEN position = 1 THEN 1 ELSE 0 END) as win,
-            sum(CASE WHEN position <= 3 THEN 1 ELSE 0 END) as podium
-        from results
-        natural join drivers
-        group by code
-        order by 2 desc limit 5' | psql-out -f graph -- --color {green,red}
+```shell
+echo '
+    select
+        code,
+        sum(CASE WHEN position = 1 THEN 1 ELSE 0 END) as win,
+        sum(CASE WHEN position <= 3 THEN 1 ELSE 0 END) as podium
+    from results
+    natural join drivers
+    group by code
+    order by 2 desc limit 5' | psql-out -f graph -- --color {green,red}
+```
 
 And get the following back
 
@@ -48,12 +50,14 @@ And get the following back
 
 I found that I have files that look like the following in the root of most of my source code repositories (and in my `.gitignore` of course):
 
-    export PGHOST="127.0.0.1"
-    export PGDATABASE="my_product"
-    export PGUSER="my_product"
-    export PGPASSWORD="a_good_password"
-    export PGPORT="5432"
-    export LISTEN_PORT="4040"
+```shell
+export PGHOST="127.0.0.1"
+export PGDATABASE="my_product"
+export PGUSER="my_product"
+export PGPASSWORD="a_good_password"
+export PGPORT="5432"
+export LISTEN_PORT="4040"
+```
 
 However for my database administration GUI I also have a `~/.pgpass` file in my home directory with the following:
 
@@ -72,14 +76,18 @@ The idea is to store a name above the lines in the ~/.pgpass like the following
 
 Running just `pgpass-env` it gives you a list of possible options:
 
-    $ pgpass-env
-    Pass one of the following
-     * local_my_product
-     * local_another_product
+```shell
+$ pgpass-env
+Pass one of the following
+    * local_my_product
+    * local_another_product
+```
 
 But if you would pass the name of a connection it would output:
 
-    $ . pgpass-env
-    > postgres://my_product@127.0.0.1:5432/my_product
+```shell
+$ . pgpass-env
+> postgres://my_product@127.0.0.1:5432/my_product
+```
 
 While at the same time performing the required `EXPORT PGUSER=my_product` etc. Using the preceding `.` means those environmental variables will be brought into the current environment, which is probably what you want.
