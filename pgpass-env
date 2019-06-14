@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    echo "Pass one of the following: "
+    cat ~/.pgpass | grep '^#' | sed 's/^# / * /'
+    exit 0
+fi
+
+REGEX="([^:]+):([^:]+):([^:]+):([^:]+):([^:]+)"
+IDENTIFIER=$1
+
+LINE=$(cat ~/.pgpass  | grep -A 1 '#\s*'"$IDENTIFIER"'\s*$' | tail -n 1)
+
+if [[ $LINE =~ $REGEX ]]; then
+    export PGHOST="${BASH_REMATCH[1]}"
+    export PGPORT="${BASH_REMATCH[2]}"
+    export PGDATABASE="${BASH_REMATCH[3]}"
+    export PGUSER="${BASH_REMATCH[4]}"
+    export PGPASSWORD="${BASH_REMATCH[5]}"
+    export DATABASE_URL="postgres://$PGUSER@$PGHOST:$PGPORT/$PGDATABASE"
+    echo "> $DATABASE_URL"
+else
+    echo "No match"
+    exit 1
+fi
