@@ -18,17 +18,29 @@ But sometimes I'm:
 
 It's not cool, it's not pretty, but this is what `psql-out` is for!
 
-If you've got your environmental variables set up (see `pgpass-env`) you can do something like the following:
+If you've got your environmental variables set up (see `pgpass-env` lower down) you can do something like the following:
 
-    echo 'select name, position from competitors' | psql-out
+```shell
+echo 'select name, position from competitors' | psql-out
+```
 
-And get a well formed tab separated CSV file out into STDOUT. If you want it as an ndjson file you can run
+And get a well formed CSV file out into STDOUT.
 
-    echo 'select name, position from competitors' | psql-out -f ndjson
+To write it to a file you just need to add `> your_file.csv` to the end to pipe STDOUT to the desired file:
+
+```shell
+echo 'select name, position from competitors' | psql-out > your_file.csv
+```
+
+ If you want it as an ndjson file you can run
+
+```shell
+echo 'select name, position from competitors' | psql-out -f ndjson
+```
 
 To get an ndjson file out. You can also get a TSV (Tab seperated CSV) out by passing `-t tsv`.
 
-If you however have [termgraph](https://github.com/mkaz/termgraph) installed and in your $PATH you can run
+If you however have [termgraph](https://github.com/mkaz/termgraph) installed and in your $PATH you can run probably leave Excel / Tableau / Whatever out of this process entirely and just draw your graphs right in the terminal:
     
 ```shell
 echo '
@@ -86,7 +98,7 @@ Pass one of the following
 But if you would pass the name of a connection it would output:
 
 ```shell
-$ . pgpass-env
+$ . pgpass-env local_my_product
 > postgres://my_product@127.0.0.1:5432/my_product
 ```
 
