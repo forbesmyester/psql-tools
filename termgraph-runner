@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+IN_CSV=""
+NL=$'\n'
+while read line
+do
+    IN_CSV="${IN_CSV}$line${NL}"
+done < "/dev/stdin"
+
+
+FIELD_COUNT_PLUS_ONE=$(echo "$IN_CSV" | head -n 1 | sed 's/[^,]//g' | wc -m)
+FIELD_COUNT_MINUS_ONE=$(expr "$FIELD_COUNT_PLUS_ONE" - 2)
+
+ALL_COLORS=(red blue green magenta yellow black cyan)
+COLORS=""
+for I in $(seq 0 ${FIELD_COUNT_MINUS_ONE}); do
+    COLOR_INDEX=$(($I % 7))
+    COLORS="$COLORS${NL}${ALL_COLORS[$COLOR_INDEX]}"
+done
+
+echo "$IN_CSV" | sed '1 sI[^,]*,I@ I' | termgraph --color $COLORS $@

@@ -7,10 +7,9 @@ HEADER='HEADER'
 show_help() {
     echo "$1 [-f FORMAT] [-H]"
     echo ""
-    echo "-f = The format to output (csv, tsv, ndjson or graph)"
+    echo "-f = The format to output (csv, tsv or ndjson)"
     echo "-H = Skip adding the header (for csv or tsv)"
     echo ""
-    echo "When drawing graphs, termgraph accepts options after the -- like the following:"
     exit 0
 }
 
@@ -35,7 +34,7 @@ if [ -z "$FORMAT" ]; then
     exit 1
 fi
 
-if [ "graph" != "$FORMAT" ] && [ "ndjson" != "$FORMAT" ] && [ "csv" != "$FORMAT" ] && [ "tsv" != "$FORMAT" ]; then
+if [ "ndjson" != "$FORMAT" ] && [ "csv" != "$FORMAT" ] && [ "tsv" != "$FORMAT" ]; then
     show_help
     exit 1
 fi
@@ -61,16 +60,11 @@ OUT_CSV="COPY (${IN_SQL}) TO STDOUT WITH CSV ${HEADER} NULL AS ''"
 OUT_NDJSON="select row_to_json(x$UUID) from ( $IN_SQL ) x$UUID"
 
 OUT="$OUT_TSV"
-if [ "csv" == "$FORMAT" ] || [ "graph" == "$FORMAT" ]; then
+if [ "csv" == "$FORMAT" ]; then
     OUT="$OUT_CSV"
 fi
 if [ "ndjson" == "$FORMAT" ]; then
     OUT="$OUT_NDJSON"
-fi
-
-if [ "graph" == "$FORMAT" ]; then
-    echo "$OUT" | psql -t | grep -v '^$' | sed 's/^\s\+//' | sed '1 sI[^,]*,I@ I' | termgraph "$@"
-    exit $?
 fi
 
 echo "$OUT" | psql -t | grep -v '^$'  | sed 's/^\s\+//'
