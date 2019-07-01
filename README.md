@@ -119,6 +119,8 @@ find . -maxdepth 1 -type f -executable | parallel ln -s "$PWD/{/}" ~/.local/bin
 I've not found anything that I can use to draw pie charts simply in the terminal - ideas welcome.
 
 ### Software
+
+ * [graph-cli](https://github.com/mcastorina/graph-cli) Can accept input from STDIN and will pop up your graph in a window.
  * [Veusz](https://veusz.github.io/) Is a desktop app which looks like a mix of Tableau and a DTP application. It's file format is plain text and it even has a Python API. It should be possible to wrap this and spit out a great image file.
  * [feedgnuplot](https://github.com/dkogan/feedgnuplot) looks like the thing I'd use if I wanted to draw a line graph. Because it's based on gnuplot it can draw your line graph right in the terminal or can popup a window.
 
