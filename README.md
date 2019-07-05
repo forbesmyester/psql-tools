@@ -104,4 +104,6 @@ $ . pgpass-env local_my_product
 
 While at the same time performing the required `EXPORT PGUSER=my_product` etc. Using the preceding `.` means those environmental variables will be brought into the current environment, which is probably what you want.
 
+It also adds adds `$DATABASE_URL` which I use in [vim-dadbod](https://github.com/tpope/vim-dadbod) but I also understand is used by Heroku.
+
 NOTE: Look at the BASH source code, `pgpass-env` is quick, simple code to get the job done, __not__ perfect code. You can see that the .pgpass fields are separated by `:` but I have put no thought in how to escape a `:` should one be included in a password. If your password includes a `:` it'll probably break.
