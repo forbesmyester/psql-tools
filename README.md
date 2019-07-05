@@ -47,6 +47,7 @@ To get an ndjson file out. You can also get a TSV (Tab seperated CSV) out by pas
 When you've got your nice CSV using the tools from above and you want to see if the data looks correct quickly one of the best ways I know to do this is to draw a quick graph. You could fire up Excel or [LibreOffice](https://www.libreoffice.org/) and pointy-clicky to get your graph. This is a __really__ bad solution if you're still finding out whether your data is correct because that feedback loop of command-line -> csv -> spreadsheet > graph is pretty long. What if you could quickly draw graphs right in your terminal... You can using termgraph-runner (which is backed by the awesome [termgraph](https://github.com/mkaz/termgraph).
 
 ```shell
+
 echo '
     select
         code,
@@ -56,6 +57,7 @@ echo '
     natural join drivers
     group by code
     order by 2 desc limit 5' | psql-out -f csv | termgraph-runner --stacked
+
 ```
 
 ## pgpass-env
@@ -113,7 +115,7 @@ NOTE: Look at the BASH source code, `pgpass-env` is quick, simple code to get th
 Installation is simple with some BASH tomfoolery:
 
 ```shell
-find . -maxdepth 1 -type f -executable | parallel ln -s "$PWD/{/}" ~/.local/bin
+mkdir -p ~/.local/bin && find . -maxdepth 1 -type f -executable | parallel ln -s "$PWD/{/}" ~/.local/bin
 ```
 
 ## Other interesting tools I've found to do portions of this...
