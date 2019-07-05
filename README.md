@@ -2,6 +2,8 @@
 
 Hacky tools for PostgreSQL that makes interacting / extracting / analysis of data in PostgreSQL easier.
 
+![screenshot](./screenshot.png)
+
 NOTE: Examples are from a PostgreSQL version of [ergast](https://ergast.com/mrd/).
 
 ## psql-out
